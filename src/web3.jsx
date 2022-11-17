@@ -10,17 +10,16 @@ export async function storeFiles(files) {
   return cid;
 }
 export async function retrieve(cid) {
-  const res = await client.get(
-    "bafybeiftpddhkxxvxks7t64gdygpbguest5p6lpwme2qwi3omoc32ww77y"
-  );
+  const res = await client.get(cid);
+  var cids = [];
   console.log(`Got a response! [${res.status}] ${res.statusText}`);
   if (!res.ok) {
     throw new Error(`failed to get ${cid}`);
   }
   const files = await res.files();
   for (const file of files) {
-    console.log(`${file.cid} -- ${file.path} -- ${file.size}`);
+    cids.push(file.cid);
   }
-  return files[0].cid;
+  return cids;
   // request succeeded! do something with the response object here...
 }

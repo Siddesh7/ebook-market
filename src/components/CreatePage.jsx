@@ -1,7 +1,16 @@
 import { Image } from "@chakra-ui/react";
 import { Button, Input, Textarea } from "@material-tailwind/react";
+import { useState } from "react";
 
 export default function CreatePage() {
+  const [coverImg, setCoverImg] = useState();
+  const [pdfFile, setPdfFile] = useState();
+  const [bookData, setBookData] = useState({
+    name: "",
+    author: "anon",
+    description: "",
+    price: 0,
+  });
   return (
     <div className="w-[90%] m-auto mt-[30px]">
       <h3 className="text-[38px] text-white font-semibold">
@@ -13,10 +22,24 @@ export default function CreatePage() {
             <div className="flex flex-row ">
               <div className="flex flex-col w-[40%]">
                 <div className="my-[10px]">
-                  <Input variant="standard" label="Name of the Book" />
+                  <Input
+                    variant="standard"
+                    label="Name of the Book"
+                    value={bookData.name}
+                    onChange={(e) => {
+                      setBookData({ ...bookData, name: e.target.value });
+                    }}
+                  />
                 </div>
                 <div className="my-[10px]">
-                  <Input variant="standard" label="Author (default : Anon)" />
+                  <Input
+                    variant="standard"
+                    label="Author (default : Anon)"
+                    value={bookData.author}
+                    onChange={(e) => {
+                      setBookData({ ...bookData, author: e.target.value });
+                    }}
+                  />
                 </div>{" "}
               </div>
               <div className="flex flex-row ml-[40px] items-center text-gray-400 text-[14px]">
@@ -24,28 +47,60 @@ export default function CreatePage() {
                   <label className="text-black text-[14px]" for="coverImg">
                     Cover Image
                   </label>
-                  <input id="coverImg" type={"file"} accept="image/*" />{" "}
+                  <input
+                    onChange={(e) => {
+                      setCoverImg(e.target.files[0]);
+                    }}
+                    id="coverImg"
+                    type={"file"}
+                    accept="image/*"
+                  />{" "}
                 </div>
                 <div className="flex flex-col">
                   <label className="text-black text-[14px]" for="coverImg">
                     Book (PDF Document)
                   </label>
-                  <input id="coverImg" type={"file"} accept="image/*" />{" "}
+                  <input
+                    onChange={(e) => {
+                      setPdfFile(e.target.files[0]);
+                    }}
+                    id="coverImg"
+                    type={"file"}
+                    accept="application/pdf"
+                  />{" "}
                 </div>
               </div>
             </div>
             <div className="my-[10px]">
-              <Textarea label="Short Description" variant="standard" />
+              <Textarea
+                label="Short Description"
+                variant="standard"
+                value={bookData.description}
+                onChange={(e) => {
+                  setBookData({ ...bookData, description: e.target.value });
+                }}
+              />
             </div>
             <div className="my-[10px]">
               <Input
                 type={"number"}
                 variant="standard"
                 label="Price ($DAI)"
-                value={0}
+                value={bookData.price}
+                onChange={(e) => {
+                  setBookData({ ...bookData, price: e.target.value });
+                }}
               />
             </div>
-            <Button className="my-[20px]" fullWidth color="green">
+            <Button
+              onClick={() => {
+                console.log(coverImg);
+                console.log(pdfFile);
+              }}
+              className="my-[20px]"
+              fullWidth
+              color="green"
+            >
               Create
             </Button>
           </form>
