@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 export default function Home() {
   const [books, setBooks] = useState();
+  const [booksFetched, setBooksFetched] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3001/api/getAll")
@@ -11,6 +12,7 @@ export default function Home() {
       .then((json) => {
         setBooks(json);
         console.log(json);
+        setBooksFetched(true);
       });
   }, []);
   return (
@@ -23,14 +25,17 @@ export default function Home() {
       </Link>
 
       <div className="mt-[80px] grid grid-cols-4 gap-6">
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
+        {booksFetched &&
+          books.map((item) => {
+            return (
+              <Item
+                author={item.author}
+                coverImg={item.coverImg}
+                name={item.name}
+                description={item.description}
+              />
+            );
+          })}
       </div>
     </div>
   );

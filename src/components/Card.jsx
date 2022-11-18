@@ -4,33 +4,40 @@ import {
   CardBody,
   CardFooter,
   Typography,
+  Button,
 } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 
-export default function Item() {
+export default function Item(props) {
   return (
     <Card className="w-full my-[20px]">
       <CardHeader color="blue" className="relative h-56">
         <img
-          src="https://www.material-tailwind.com/_next/image?url=%2Fimg%2Fblog.jpg&w=1920&q=75"
+          src={`https://${props.coverImg}.ipfs.dweb.link/`}
           alt="img-blur-shadow"
           className="h-full w-full"
         />
       </CardHeader>
-      <CardBody className="text-center">
+      <CardBody className="h-[60%] relative">
         <Typography variant="h5" className="mb-2">
-          Cozy 5 Stars Apartment
+          {props.name}
         </Typography>
         <Typography>
-          The place is close to Barceloneta Beach and bus stop just 2 min by
-          walk and near to "Naviglio" where you can enjoy the main night life in
-          Barcelona.
+          {props.description.slice(0, 100)}
+          {props.description.length > 100 && " ...."}
         </Typography>
+        <Link
+          to={`/${props.name}:${props.author}`}
+          className="mt-[50px] absolute bottom-[20px] left-[20px]"
+        >
+          <Button color="green">Read</Button>
+        </Link>
       </CardBody>
       <CardFooter divider className="flex items-center justify-between py-3">
-        <Typography variant="small">$899/night</Typography>
+        <Typography variant="small">Author</Typography>
         <Typography variant="small" color="gray" className="flex gap-1">
           <i className="fas fa-map-marker-alt fa-sm mt-[3px]" />
-          Barcelona, Spain
+          {props.author}
         </Typography>
       </CardFooter>
     </Card>
