@@ -27,7 +27,7 @@ export default function Item(props) {
           {props.description.length > 100 && " ...."}
         </Typography>
         <Link
-          to={`/${props.name}:${props.author}`}
+          to={`/book?name=${props.name}&author=${props.author}`}
           className="mt-[50px] absolute bottom-[20px] left-[20px]"
         >
           <Button color="green">Read</Button>
