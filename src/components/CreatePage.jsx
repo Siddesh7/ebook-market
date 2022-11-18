@@ -1,21 +1,63 @@
 import { Image } from "@chakra-ui/react";
 import { Button, Input, Textarea } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Web3Storage } from "web3.storage";
 
 export default function CreatePage() {
   const [coverImg, setCoverImg] = useState();
   const [pdfFile, setPdfFile] = useState();
+  const [coverImgCid, setCoverImgCid] = useState();
+  const [pdfFileCid, setPdfFileCid] = useState();
   const [bookData, setBookData] = useState({
     name: "",
     author: "anon",
     description: "",
     price: 0,
+    coverImg: "",
+    document: "",
+    creater: "ffd",
   });
+
+  function makeStorageClient() {
+    return new Web3Storage({ token: process.env.REACT_APP_WEB3_KEY });
+  }
+  const client = makeStorageClient();
+  async function storeFiles(files, stateName) {
+    var output;
+    const cid = await client.put(files);
+    const res = await client.get(cid);
+    const filesD = await res.files();
+    for (const file of filesD) {
+      output = file.cid;
+    }
+    console.log(output);
+    stateName(output);
+    return output;
+  }
+
+  var cidOfCover, cidOfPdf;
+  function onSubmit(callback) {
+    cidOfCover = storeFiles(coverImg, setCoverImgCid);
+    cidOfPdf = storeFiles(pdfFile, setPdfFileCid);
+  }
+
+  useEffect(() => {
+    setBookData({ ...bookData, coverImg: coverImgCid, document: pdfFileCid });
+  }, [coverImgCid, pdfFileCid]);
+  useEffect(() => {
+    if (bookData.document !== undefined && bookData.coverImg !== undefined) {
+      if (bookData.document !== "" && bookData.coverImg !== "") {
+        console.log(bookData);
+      }
+    }
+  }, [bookData]);
+
   return (
     <div className="w-[90%] m-auto mt-[30px]">
       <h3 className="text-[38px] text-white font-semibold">
         Upload your Book and start earning!
       </h3>
+
       <div className="flex flex-row items-center justify-between">
         <div className="bg-white w-[70%] rounded-lg border border-white p-[20px] mt-[20px] font-bold">
           <form action="">
@@ -49,7 +91,7 @@ export default function CreatePage() {
                   </label>
                   <input
                     onChange={(e) => {
-                      setCoverImg(e.target.files[0]);
+                      setCoverImg(e.target.files);
                     }}
                     id="coverImg"
                     type={"file"}
@@ -62,7 +104,7 @@ export default function CreatePage() {
                   </label>
                   <input
                     onChange={(e) => {
-                      setPdfFile(e.target.files[0]);
+                      setPdfFile(e.target.files);
                     }}
                     id="coverImg"
                     type={"file"}
@@ -93,10 +135,7 @@ export default function CreatePage() {
               />
             </div>
             <Button
-              onClick={() => {
-                console.log(coverImg);
-                console.log(pdfFile);
-              }}
+              onClick={onSubmit}
               className="my-[20px]"
               fullWidth
               color="green"

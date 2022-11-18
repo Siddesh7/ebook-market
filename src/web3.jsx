@@ -5,21 +5,14 @@ function makeStorageClient() {
 }
 const client = makeStorageClient();
 export async function storeFiles(files) {
+  var output;
   const cid = await client.put(files);
-  console.log("stored files with cid:", cid);
-  return cid;
-}
-export async function retrieve(cid) {
+  console.log(cid);
   const res = await client.get(cid);
-  var cids = [];
-  console.log(`Got a response! [${res.status}] ${res.statusText}`);
-  if (!res.ok) {
-    throw new Error(`failed to get ${cid}`);
+  const filesD = await res.files();
+  for (const file of filesD) {
+    output = file.cid;
   }
-  const files = await res.files();
-  for (const file of files) {
-    cids.push(file.cid);
-  }
-  return cids;
-  // request succeeded! do something with the response object here...
+  console.log(output);
+  return output;
 }
