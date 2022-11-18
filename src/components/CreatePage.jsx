@@ -48,6 +48,22 @@ export default function CreatePage() {
     if (bookData.document !== undefined && bookData.coverImg !== undefined) {
       if (bookData.document !== "" && bookData.coverImg !== "") {
         console.log(bookData);
+        fetch("http://localhost:3001/api/post", {
+          method: "POST",
+          mode: "cors",
+          body: JSON.stringify(bookData),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          }, // body data type must match "Content-Type" header
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            // Handle data
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       }
     }
   }, [bookData]);
