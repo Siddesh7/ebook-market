@@ -7,7 +7,7 @@ export default function NavbarComponent() {
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          href="/"
           variant="small"
           className="mr-4 cursor-pointer py-1.5 font-bold text-[22px] text-[#130F40]"
         >

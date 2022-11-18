@@ -2,12 +2,13 @@ import { Image } from "@chakra-ui/react";
 import { Button, Input, Textarea } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { Web3Storage } from "web3.storage";
-
+import { useAccount } from "wagmi";
 export default function CreatePage() {
   const [coverImg, setCoverImg] = useState();
   const [pdfFile, setPdfFile] = useState();
   const [coverImgCid, setCoverImgCid] = useState();
   const [pdfFileCid, setPdfFileCid] = useState();
+  const { address } = useAccount();
   const [bookData, setBookData] = useState({
     name: "",
     author: "anon",
@@ -15,7 +16,7 @@ export default function CreatePage() {
     price: 0,
     coverImg: "",
     document: "",
-    creater: "ffd",
+    creater: "",
   });
 
   function makeStorageClient() {
@@ -36,13 +37,18 @@ export default function CreatePage() {
   }
 
   var cidOfCover, cidOfPdf;
-  function onSubmit(callback) {
+  function onSubmit() {
     cidOfCover = storeFiles(coverImg, setCoverImgCid);
     cidOfPdf = storeFiles(pdfFile, setPdfFileCid);
   }
 
   useEffect(() => {
-    setBookData({ ...bookData, coverImg: coverImgCid, document: pdfFileCid });
+    setBookData({
+      ...bookData,
+      coverImg: coverImgCid,
+      document: pdfFileCid,
+      creater: address,
+    });
   }, [coverImgCid, pdfFileCid]);
   useEffect(() => {
     if (bookData.document !== undefined && bookData.coverImg !== undefined) {

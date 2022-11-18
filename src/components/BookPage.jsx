@@ -39,7 +39,7 @@ export default function BookPage() {
             </p>
             <p className="text-[18px]">{books.description}</p>
 
-            {numPages > 1 ? (
+            {numPages > 1 && numPages > pageNumber ? (
               <Button
                 color="green"
                 onClick={() => {
@@ -61,33 +61,37 @@ export default function BookPage() {
               <Page pageNumber={pageNumber} />
             </Document>
             {numPages > 1 ? (
-              <div className="absolute top-[120vh] flex flex-row justify-between w-[100%]">
-                <div
-                  className={
-                    "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
-                  }
-                  onClick={() => {
-                    if (numPages !== null && pageNumber - 1 > 0) {
-                      setPageNumber(pageNumber - 1);
+              <div className="absolute top-[122vh] flex flex-row justify-between w-[100%]">
+                {pageNumber > 1 ? (
+                  <div
+                    className={
+                      "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
                     }
-                  }}
-                >
-                  <BsArrowLeftSquareFill size={"2rem"} color="white" />
-                  <p className="ml-[10px]">Previous Page</p>
-                </div>
-                <div
-                  className={
-                    "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
-                  }
-                  onClick={() => {
-                    if (numPages !== null && pageNumber + 1 <= numPages) {
-                      setPageNumber(pageNumber + 1);
+                    onClick={() => {
+                      if (numPages !== null && pageNumber - 1 > 0) {
+                        setPageNumber(pageNumber - 1);
+                      }
+                    }}
+                  >
+                    <BsArrowLeftSquareFill size={"2rem"} color="white" />
+                    <p className="ml-[10px]">Previous Page</p>
+                  </div>
+                ) : null}
+                {pageNumber < numPages ? (
+                  <div
+                    className={
+                      "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
                     }
-                  }}
-                >
-                  <p className="mr-[10px]">Next Page</p>
-                  <BsArrowRightSquareFill size={"2rem"} color="white" />
-                </div>
+                    onClick={() => {
+                      if (numPages !== null && pageNumber + 1 <= numPages) {
+                        setPageNumber(pageNumber + 1);
+                      }
+                    }}
+                  >
+                    <p className="mr-[10px]">Next Page</p>
+                    <BsArrowRightSquareFill size={"2rem"} color="white" />
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>
