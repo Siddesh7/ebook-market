@@ -61,7 +61,7 @@ export default function BookPage() {
               <Page pageNumber={pageNumber} />
             </Document>
             {numPages > 1 ? (
-              <div className="absolute top-[125vh] flex flex-row justify-between w-[100%]">
+              <div className="absolute top-[120vh] flex flex-row justify-between w-[100%]">
                 <div
                   className={
                     "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"

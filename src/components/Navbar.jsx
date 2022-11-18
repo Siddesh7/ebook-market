@@ -1,4 +1,5 @@
 import { Navbar, Typography, Button } from "@material-tailwind/react";
+import { ConnectKitButton } from "connectkit";
 
 export default function NavbarComponent() {
   return (
@@ -13,9 +14,7 @@ export default function NavbarComponent() {
           <span>DeBoook</span>
         </Typography>
 
-        <Button variant="gradient" size="md" className="inline-block">
-          <span>Sign in</span>
-        </Button>
+        <ConnectKitButton />
       </div>
     </Navbar>
   );
