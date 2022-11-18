@@ -23,7 +23,7 @@ export default function BookPage() {
       });
   }, []);
   function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(4);
+    setNumPages(numPages);
   }
 
   return (
@@ -60,34 +60,36 @@ export default function BookPage() {
             >
               <Page pageNumber={pageNumber} />
             </Document>
-            <div className="absolute top-[125vh] flex flex-row justify-between w-[100%]">
-              <div
-                className={
-                  "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
-                }
-                onClick={() => {
-                  if (numPages !== null && pageNumber - 1 > 0) {
-                    setPageNumber(pageNumber - 1);
+            {numPages > 1 ? (
+              <div className="absolute top-[125vh] flex flex-row justify-between w-[100%]">
+                <div
+                  className={
+                    "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
                   }
-                }}
-              >
-                <BsArrowLeftSquareFill size={"2rem"} color="white" />
-                <p className="ml-[10px]">Previous Page</p>
-              </div>
-              <div
-                className={
-                  "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
-                }
-                onClick={() => {
-                  if (numPages !== null && pageNumber + 1 <= numPages) {
-                    setPageNumber(pageNumber + 1);
+                  onClick={() => {
+                    if (numPages !== null && pageNumber - 1 > 0) {
+                      setPageNumber(pageNumber - 1);
+                    }
+                  }}
+                >
+                  <BsArrowLeftSquareFill size={"2rem"} color="white" />
+                  <p className="ml-[10px]">Previous Page</p>
+                </div>
+                <div
+                  className={
+                    "cursor-pointer text-white hover:text-gray-700 flex flex-row items-center"
                   }
-                }}
-              >
-                <p className="mr-[10px]">Next Page</p>
-                <BsArrowRightSquareFill size={"2rem"} color="white" />
+                  onClick={() => {
+                    if (numPages !== null && pageNumber + 1 <= numPages) {
+                      setPageNumber(pageNumber + 1);
+                    }
+                  }}
+                >
+                  <p className="mr-[10px]">Next Page</p>
+                  <BsArrowRightSquareFill size={"2rem"} color="white" />
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       )}

@@ -15,7 +15,7 @@ export default function Item(props) {
         <img
           src={`https://${props.coverImg}.ipfs.dweb.link/`}
           alt="img-blur-shadow"
-          className="h-full w-full"
+          className="h-full w-full object-cover"
         />
       </CardHeader>
       <CardBody className="h-[60%] relative">
